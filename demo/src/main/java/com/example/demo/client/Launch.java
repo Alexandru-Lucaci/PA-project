@@ -15,18 +15,14 @@ import static java.lang.System.exit;
 public class Launch implements ActionListener {
 
     JFrame frame=new JFrame();
-    JButton myButton =new JButton("New Game");
+   
     JButton exitButton = new JButton("Ieșire");
     JButton registerButton = new JButton("Înregistrare");
     JButton loginButton = new JButton("Logare");
 
     Launch(){
 
-        myButton.setBounds(100,160,200,40);
-        myButton.setFocusable(false);
-        myButton.addActionListener(this);
-        myButton.setBorder(BorderFactory.createEtchedBorder());
-        myButton.setFont(new Font(null,Font.BOLD,30));
+
 
         exitButton.setBounds(100,160,200,40);
         exitButton.setFocusable(false);
@@ -128,7 +124,7 @@ public class Launch implements ActionListener {
               }
         }
 
-        if(e.getSource() == myButton)
+        if(e.getSource() == loginButton)
         {
             frame.dispose();
 //            Game myWindow = new Game();
