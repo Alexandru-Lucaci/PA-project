@@ -50,25 +50,26 @@ public class PersonController {
     }
 //todo not working ...
 
-//    PutMapping("/changepassword/{id}")
-//    public ResponseEntity<String> updatePersonPassword(
-//            @PathVariable int id, @RequestParam String password) {
-//// ID il primesc din path
-////        Numele este un parametru request, cu ce voi modifica numele.
-//        try {
-//            String stringNumeCautat = new ContDAO().findById(id);
-//            if(stringNumeCautat==null)
-//                return new ResponseEntity<>(
-//                        "Product not found", HttpStatus.NOT_FOUND); //or GONE
-//            new ContDAO().updatePassUsingId(id, password);
-//            return new ResponseEntity<>(
-//                    "Product updated successsfully", HttpStatus.OK);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<>(
-//                "Something went wrong", HttpStatus.GONE); //or GONE
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePassUsingId(
+            @PathVariable int id, @RequestParam String password) {
+// ID il primesc din path
+//        Numele este un parametru request, cu ce voi modifica numele.
+        try {
+            String stringNumeCautat = new ContDAO().findById(id);
+            if(stringNumeCautat==null)
+                return new ResponseEntity<>(
+                        "Product not found", HttpStatus.NOT_FOUND); //or GONE
+            new ContDAO().updatePassUsingId(id, password);
+            return new ResponseEntity<>(
+                    "Product updated successsfully", HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(
+                "Something went wrong", HttpStatus.GONE); //or GONE
+    }
+
     @DeleteMapping(value="/{id}")
     public ResponseEntity<String> deletePerson(@PathVariable int id){
         try {
