@@ -97,6 +97,20 @@ public class PersonController {
         return id;
 
     }
+    @PostMapping("/add")
+    public int create(@RequestParam Person person) {
+        int id=-1;
+        try {
+            new ContDAO().create(person.getName(),person.getPassword());
+            id= new ContDAO().findByName(person.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+
+    }
+
+
     @GetMapping("/{id}")
     public Person getPerson(@PathVariable("id") int id){
         List<Person> personList=getPersons();

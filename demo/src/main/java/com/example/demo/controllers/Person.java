@@ -13,6 +13,11 @@ public class Person {
         this.name = name;
         this.password=password;
     }
+    public Person( String name, String password) {
+        id=-1;
+        this.name = name;
+        this.password=password;
+    }
     public Person(int id, String name, String password,Date created_at) {
         this.id = id;
         this.name = name;
