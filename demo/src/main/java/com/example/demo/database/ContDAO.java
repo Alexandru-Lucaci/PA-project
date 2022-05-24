@@ -68,6 +68,38 @@ public class ContDAO {
         }
         return ids;
     }
+    public String findPasswordById(int id)
+    {
+
+        try {
+            List<Person> personList = findAll();
+
+            for(Person p:personList)
+            {
+                if(p.getId()==id)
+                   return p.getPassword();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Person getFullPersonById(int id)
+    {
+        try {
+            List<Person> personList = findAll();
+            for(Person p:personList)
+            {
+                if(p.getId()==id)
+                    return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
 
     public int getCount() throws SQLException{
@@ -113,8 +145,9 @@ public class ContDAO {
         }
         finally {
             con.close();
-            return ids;
+
         }
+        return ids;
 
     }
     public void delete(int id) throws  SQLException{
@@ -203,8 +236,9 @@ public class ContDAO {
 //            closing the connection
             con.close();
 
-            return listaNume;
+
         }
+        return listaNume;
     }
 
 }

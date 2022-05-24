@@ -48,7 +48,6 @@ public class PersonController {
         return new ResponseEntity<>(
                 "Something went wrong", HttpStatus.GONE); //or GONE
     }
-//todo not working ...
 
     @PutMapping("/changepassword/{id}")
     public ResponseEntity<String> updatePassUsingId(
