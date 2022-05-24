@@ -50,7 +50,7 @@ public class PersonController {
     }
 //todo not working ...
 
-    @PutMapping("/{id}")
+    @PutMapping("/changepassword/{id}")
     public ResponseEntity<String> updatePassUsingId(
             @PathVariable int id, @RequestParam String password) {
 // ID il primesc din path
