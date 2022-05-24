@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Laborator" />
+    <meta name="author" content="Lucaci Alexandru-Constantin" />
+    <title>Formular</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<form class="form" action="http://localhost:8088/persons" method="POST" >
+
+    <div class="title">Welcome</div>
+    <div class="subtitle">Formular pentru a adauga o persoana</div>
+    <div class="input-container ic1">
+        <input id="firstname" class="input" type="text" name = "name" placeholder=" " />
+        <div class="cut"></div>
+        <label for="firstname" class="placeholder">Nume</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="lastname" class="input" type="text" name = "password" placeholder=" " />
+        <div class="cut"></div>
+        <label for="lastname" class="placeholder">Parola</label>
+    </div>
+    <button type="text" class="submit">Trimite</button>
+</form>
+
+
+</body>
+
+</html>

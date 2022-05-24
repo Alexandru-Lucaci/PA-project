@@ -29,7 +29,6 @@ public class PersonController {
                 "Product created successfully", HttpStatus.CREATED);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<String> updatePerson(
             @PathVariable int id, @RequestParam String name) {
@@ -49,9 +48,27 @@ public class PersonController {
         return new ResponseEntity<>(
                 "Something went wrong", HttpStatus.GONE); //or GONE
     }
+//todo not working ...
 
-
-
+//    PutMapping("/changepassword/{id}")
+//    public ResponseEntity<String> updatePersonPassword(
+//            @PathVariable int id, @RequestParam String password) {
+//// ID il primesc din path
+////        Numele este un parametru request, cu ce voi modifica numele.
+//        try {
+//            String stringNumeCautat = new ContDAO().findById(id);
+//            if(stringNumeCautat==null)
+//                return new ResponseEntity<>(
+//                        "Product not found", HttpStatus.NOT_FOUND); //or GONE
+//            new ContDAO().updatePassUsingId(id, password);
+//            return new ResponseEntity<>(
+//                    "Product updated successsfully", HttpStatus.OK);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return new ResponseEntity<>(
+//                "Something went wrong", HttpStatus.GONE); //or GONE
+//    }
     @DeleteMapping(value="/{id}")
     public ResponseEntity<String> deletePerson(@PathVariable int id){
         try {
@@ -68,8 +85,6 @@ public class PersonController {
         }
         return new ResponseEntity<>("Persone with id= "+id+" removed",HttpStatus.OK);
     }
-
-
     @PostMapping
     public int createProduct(@RequestParam String name, @RequestParam String password) {
         int id=-1;

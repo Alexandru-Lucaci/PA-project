@@ -29,6 +29,24 @@ public class ContDAO {
             e.printStackTrace();
         }
     }
+    public void updatePassUsingId(int id, String changeWith) throws SQLException{
+        Connection con = dataSource.getConnection();
+        try{
+            // sql statemant
+            String sql = "update cont set password = ? where id=?";
+            PreparedStatement statement= con.prepareStatement(sql);
+            statement.setString(1,"\""+changeWith+"\"");
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            // commit to work properly
+            con.commit();
+            con.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
     public Integer findByName(String name) throws SQLException {
         Connection con = dataSource.getConnection();
         name=name.toUpperCase();
