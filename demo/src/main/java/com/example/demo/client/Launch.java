@@ -15,7 +15,7 @@ import static java.lang.System.exit;
 public class Launch implements ActionListener {
 
     JFrame frame=new JFrame();
-   
+
     JButton exitButton = new JButton("Ieșire");
     JButton registerButton = new JButton("Înregistrare");
     JButton loginButton = new JButton("Logare");
@@ -81,6 +81,8 @@ public class Launch implements ActionListener {
         frame.setResizable(false);
 //        frame.pack();;
 
+
+
     }
 
     private String generateUsername(){
@@ -127,7 +129,13 @@ public class Launch implements ActionListener {
         if(e.getSource() == loginButton)
         {
             frame.dispose();
-//            Game myWindow = new Game();
+//           LoginFrame myWindow = new LoginFrame();
+            LoginFrame frame = new LoginFrame();
+            frame.setTitle("Login Form");
+            frame.setVisible(true);
+            frame.setBounds(10, 10, 370, 600);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
         }
         if(e.getSource()==exitButton)
         {

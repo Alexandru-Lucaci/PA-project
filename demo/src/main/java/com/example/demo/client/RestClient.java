@@ -15,6 +15,9 @@ import static com.example.demo.DemoApplication.initDatabaseConnectionPool;
 public class RestClient {
     private static final String Create_PERSONS ="http://localhost:8088/persons/add";
     private static final String GET_PERSON_BY_ID="http://localhost:8088/persons/{id}";
+    private static final String GET_PERSON_BY_NAME="http://localhost:8088/persons/name/{id}";
+
+
     static RestTemplate restTemplate=new RestTemplate();
 
 
@@ -22,7 +25,7 @@ public class RestClient {
     //    public static void main(String[] args) {
 //        callCreatePersonUSerAPi( "name", "password");
 //    }
-    private static void callGeTPersonByIdAPI(int idThatIWant){
+    public static void callGeTPersonByIdAPI(int idThatIWant){
         Map<String, Integer> param =new HashMap<>();
         param.put("id",idThatIWant);
 
@@ -30,7 +33,18 @@ public class RestClient {
         System.out.println(person);
 
     }
+    public static String  callGetPersonByName(String name){
+        int idThatIGot=-1;
 
+        Map<String, String> param =new HashMap<>();
+        param.put("id",name);
+        String person = restTemplate.getForObject(GET_PERSON_BY_NAME,String.class, param);
+        System.out.println(person);
+
+        return person;
+
+
+    }
     public static Person callCreatePersonUSerAPi(String name, String password){
         Map<String, Person> param =new HashMap<>();
         Person person = new Person(name,password);

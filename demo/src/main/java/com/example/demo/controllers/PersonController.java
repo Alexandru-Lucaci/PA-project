@@ -117,6 +117,13 @@ public class PersonController {
         return personList.stream().filter( p-> p.getId()==id).findFirst().orElse(null);
     }
 
+    @GetMapping("/name/{id}")
+    public Person getPersonByName(@PathVariable("id") String name){
+        List<Person> personList=getPersons();
+        return personList.stream().filter(p->p.getName().equals(name)).findFirst().orElse(null);
+
+    }
+
     @GetMapping
     public List<Person> getPersons(){
         List<Person> list= new ArrayList<>();
