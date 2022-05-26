@@ -2,8 +2,7 @@ package com.example.demo.client;
 
 import com.example.demo.controllers.Person;
 import com.example.demo.controllers.PersonController;
-import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -34,8 +33,6 @@ public class RestClient {
 
     }
     public static String  callGetPersonByName(String name){
-        int idThatIGot=-1;
-
         Map<String, String> param =new HashMap<>();
         param.put("id",name);
         String person = restTemplate.getForObject(GET_PERSON_BY_NAME,String.class, param);
