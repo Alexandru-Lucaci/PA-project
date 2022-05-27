@@ -168,31 +168,42 @@ public class ContDAO {
         }
         con.close();
     }
-    public void create(String name, String password) throws SQLException {
+    public String create(String name, String password) throws SQLException {
         Connection con = dataSource.getConnection();
         name=name.toUpperCase();
+        String response="";
 
-        try(PreparedStatement pstm = con.prepareStatement("insert into cont (ID, NAMe,PASSWORD, CREATED_AT ) values ((?), (?), (?), sysdate)")){
-            Statement stmt = con.createStatement();
-            String sql="select max(id) from CONT";
-            ResultSet rs= stmt.executeQuery(sql);
-            rs.next();
-            int ids=rs.getInt("MAX(ID)");
-            pstm.setInt(1,(ids+1));
-            pstm.setString(2, name);
-            pstm.setString(3,password);
+        Integer id= new ContDAO().findByName(name);
 
-            LocalDateTime now = LocalDateTime.now();
-            pstm.executeUpdate();
+        if(id==null){
+            try(PreparedStatement pstm = con.prepareStatement("insert into cont (ID, NAMe,PASSWORD, CREATED_AT ) values ((?), (?), (?), sysdate)")){
+                Statement stmt = con.createStatement();
+                String sql="select max(id) from CONT";
+                ResultSet rs= stmt.executeQuery(sql);
+                rs.next();
+                int ids=rs.getInt("MAX(ID)");
+                pstm.setInt(1,(ids+1));
+                pstm.setString(2, name);
+                pstm.setString(3,password);
 
-            con.commit();
+                LocalDateTime now = LocalDateTime.now();
+                pstm.executeUpdate();
+
+                con.commit();
+                response = "Account created successfully";
+                return response;
 
 
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        finally {
-            con.close();
+            }catch (Exception e){
+                System.out.println(e);
+            }
+            finally {
+                con.close();
+                return response;
+            }
+        }else{
+            response = "Name already used";
+            return response;
         }
     }
     public List<Person> findAll() throws SQLException {
