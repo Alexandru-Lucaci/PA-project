@@ -7,6 +7,8 @@ import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -156,10 +158,22 @@ public class LoggedInFrame extends JFrame implements ActionListener {
         prieteni.setFont(new Font("MV Boli",Font.BOLD,13));
         prieteni.setLayout(new FlowLayout());
 
+
+        prieteni.addListSelectionListener(new ListSelectionListener() {
+
+
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                String SelectedFruit = (String) ListFruits.getSelectedValue();
+                label.setText(SelectedFruit);
+            }
+        });
+
+
+
         prieteni.setVisibleRowCount(4);
          jcp = new JScrollPane(prieteni);
-//        jcp.setLayout(new FlowLayout());
-//        jcp.setAlignmentX(CENTER_ALIGNMENT);
         frame.setIconImage(icon.getImage());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
