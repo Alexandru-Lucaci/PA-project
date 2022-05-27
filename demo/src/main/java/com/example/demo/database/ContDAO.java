@@ -169,7 +169,6 @@ public class ContDAO {
         con.close();
     }
     public void create(String name, String password) throws SQLException {
-
         Connection con = dataSource.getConnection();
         name=name.toUpperCase();
 

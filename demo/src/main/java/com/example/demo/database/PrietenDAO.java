@@ -18,7 +18,7 @@ public class PrietenDAO {
 
             Connection con = dataSource.getConnection();
             Statement stmt = con.createStatement();
-            String sql = "SELECT DISTINCT * FROM PRIETEN where id_First =" + id + " ORDER BY ID_FIrST";
+            String sql = "SELECT DISTINCT ID_FIRST, ID_SECOND FROM PRIETEN where id_First =" + id + " OR ID_SECOND ="+id+ " ORDER BY ID_FIrST";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
@@ -51,6 +51,26 @@ public class PrietenDAO {
 
     }
 
+    public String deleteAllFriendshipWithId(int id) throws SQLException
+    {
+        Connection con = dataSource.getConnection();
+        int idMax1 = 0;
+        try (PreparedStatement pstm = con.prepareStatement("delete from prieten where ID_FIRST = (?) or ID_SECOND=(?)")) {
+            Statement stmt = con.createStatement();
+
+            pstm.setInt(1, id);
+            pstm.setInt(2, id);
+            pstm.executeUpdate();
+            con.commit();
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            con.close();
+        }
+        return "Done";
+    }
 
 
     public int maxID() {

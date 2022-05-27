@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.database.ContDAO;
 import com.example.demo.database.PrietenDAO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -37,6 +39,20 @@ public class FriendshipController {
         }
         return id;
     }
+    @PostMapping("/add")
+    public ResponseEntity<String> createProduct(@RequestParam Friendship friendship) {
+
+        try{
+            new PrietenDAO().create(friendship.getIdFirst(), friendship.getIdSecond());
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+
+        }
+        return new ResponseEntity<>(
+                "Product created successfully", HttpStatus.CREATED);
+    }
+
 
 
     private int getMaxValKey(Map<Integer,Integer> map){

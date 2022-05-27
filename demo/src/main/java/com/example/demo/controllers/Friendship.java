@@ -15,6 +15,16 @@ public class Friendship {
         return idFirst;
     }
 
+    @Override
+    public String toString() {
+        return "Friendship{" +
+                "idFirst=" + idFirst +
+                ", idSecond=" + idSecond +
+                ", nameFirst='" + nameFirst + '\'' +
+                ", nameSecond='" + nameSecond + '\'' +
+                '}';
+    }
+
     public Friendship(int idFirst, int idSecond) {
         this.idFirst = idFirst;
         try {

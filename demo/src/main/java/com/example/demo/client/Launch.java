@@ -96,7 +96,7 @@ public class Launch implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()== registerButton)
         {
-              File file = new File("D:\\git\\GitHub\\PA-project\\demo\\src\\main\\java\\com\\example\\demo\\html\\formForPost.html");
+              File file = new File("F:\\PA-project\\demo\\src\\main\\java\\com\\example\\demo\\html\\formForPost.html");
               if(file.exists())
               {
                   if(!Desktop.isDesktopSupported())
@@ -124,18 +124,15 @@ public class Launch implements ActionListener {
                       }
                   }
               }
+              else
+              {
+                  System.out.println("nu am putut deschide un fisier.");
+              }
         }
 
         if(e.getSource() == loginButton)
         {
-            frame.dispose();
-//           LoginFrame myWindow = new LoginFrame();
-            LoginFrame frame = new LoginFrame();
-            frame.setTitle("Login Form");
-            frame.setVisible(true);
-            frame.setBounds(10, 10, 370, 600);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
+            LoggedInFrame.backfunction(frame);
         }
         if(e.getSource()==exitButton)
         {
