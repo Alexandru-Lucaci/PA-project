@@ -5,7 +5,9 @@ import com.example.demo.controllers.FriendshipController;
 import com.example.demo.controllers.Person;
 import com.example.demo.controllers.PersonController;
 
+import com.example.demo.database.ContDAO;
 import com.example.demo.database.PrietenDAO;
+import com.google.gson.Gson;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class RestClient {
     private static final String GET_PERSON_BY_NAME = "http://localhost:8088/persons/name/{id}";
     private static final String CREATE_FRIENDSHIP = "http://localhost:8088//friendship/add";
     private static final String SEE_ALL_FRIENDSHIP ="http://localhost:8088/friendship";
+    private static final String CHANGE_PASSWORD ="http://localhost:8088/persons/changepassword/{id}";
     static RestTemplate restTemplate = new RestTemplate();
 
     public static String callGetAllFriendship(){
@@ -35,6 +38,21 @@ public class RestClient {
     //    public static void main(String[] args) {
 //        callCreatePersonUSerAPi( "name", "password");
 //    }
+
+    public static Person getPersonByJson(String json)
+    {
+        return new Gson().fromJson(json,Person.class);
+    }
+    public static Person changePassword(int id, String password)
+    {
+        try {
+            new ContDAO().updatePassUsingId(id,password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Person response = getPersonByJson(callGeTPersonByIdAPI(id));
+        return response;
+    }
 
     public static String callDeletepersonByIdAPi(int idThatIWant)
     {

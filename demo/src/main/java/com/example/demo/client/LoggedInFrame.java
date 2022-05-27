@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.exit;
+//import static java.lang.System.exit;
 
 public class LoggedInFrame extends JFrame implements ActionListener {
-    private JScrollPane jcp;
-    private int whoAmI;
+    private final JScrollPane jcp;
+    private final int whoAmI;
     JFrame frame=new JFrame();
     JTextField info = new JTextField();
     JButton exitButton = new JButton("Ieșire");
@@ -61,17 +61,7 @@ public class LoggedInFrame extends JFrame implements ActionListener {
         adaugaPrietenButton.addActionListener(this);
         adaugaPrietenButton.setBorder(BorderFactory.createEtchedBorder());
         adaugaPrietenButton.setFont(new Font(null,Font.BOLD,20));
-        registerButton.setBounds(100,160,200,40);
-        registerButton.setFocusable(false);
-        registerButton.addActionListener(this);
-        registerButton.setBorder(BorderFactory.createEtchedBorder());
-        registerButton.setFont(new Font(null,Font.BOLD,20));
 
-        loginButton.setBounds(100,160,200,40);
-        loginButton.setFocusable(false);
-        loginButton.addActionListener(this);
-        loginButton.setBorder(BorderFactory.createEtchedBorder());
-        loginButton.setFont(new Font(null,Font.BOLD,20));
 
 
         info.setBounds(150, 150, 150, 30);
@@ -187,7 +177,7 @@ public class LoggedInFrame extends JFrame implements ActionListener {
 
 
     }
-    private Person getPersonByJson(String json)
+    protected Person getPersonByJson(String json)
     {
         return new Gson().fromJson(json,Person.class);
     }
@@ -208,37 +198,6 @@ public class LoggedInFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()== registerButton)
-        {
-            File file = new File("D:\\git\\GitHub\\PA-project\\demo\\src\\main\\java\\com\\example\\demo\\html\\formForPost.html");
-            if(file.exists())
-            {
-                if(!Desktop.isDesktopSupported())
-                    JOptionPane.showMessageDialog(null,"ceva nu prea e ok, nu pot deschide chestia asta","Error",JOptionPane.ERROR_MESSAGE);
-
-                else
-                {
-                    Desktop desktop= Desktop.getDesktop();
-                    try {
-                        String [] options ={"Manual", "Crează automat"};
-//                         int option = JOptionPane.showConfirmDialog(null,"Completeaza pagina web infromatiile necesare","MESSAGE",JOptionPane.YES_NO_CANCEL_OPTION);
-
-
-                        String opt = String.valueOf(JOptionPane.showInputDialog(null,"Crearea contului","message", JOptionPane.INFORMATION_MESSAGE,null,options,0));
-                        if(opt.equals("Manual")) desktop.open(file);
-                        else if(opt.equals("Crează automat")) {
-                            String username= generateUsername();
-                            String password = generatePassword();
-                            RestClient.callCreatePersonUSerAPi(username,password);
-                            JOptionPane.showMessageDialog(null,"Contul creat este nume = " +username+
-                                    " parola = "+ password,"Cont creat",JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }
 
         if(e.getSource()==backButton)
         {
@@ -253,6 +212,21 @@ public class LoggedInFrame extends JFrame implements ActionListener {
                 System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
                 backfunction(frame);
             }
+
+        }
+
+        if(e.getSource()==changePasswordButton)
+        {
+            Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
+            int answer = JOptionPane.showConfirmDialog(null, "Esti sigur ca vrei sa schimbi parola contului "+p.getName()+"?","IMPORTANT", JOptionPane.YES_NO_OPTION);
+            if(answer==0)
+            {
+                String newPassword = JOptionPane.showInputDialog("Introdu parola noua: ");
+                Person person= RestClient.changePassword(whoAmI,newPassword);
+                System.out.println(person);
+                backfunction(frame);
+            }
+
 
         }
         if(e.getSource()==adaugaPrietenButton){
