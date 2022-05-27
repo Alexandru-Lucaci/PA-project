@@ -5,6 +5,7 @@ import com.example.demo.controllers.FriendshipController;
 import com.example.demo.controllers.Person;
 import com.example.demo.controllers.PersonController;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +33,16 @@ public class RestClient {
     //    public static void main(String[] args) {
 //        callCreatePersonUSerAPi( "name", "password");
 //    }
+
+    public static String callDeletepersonByIdAPi(int idThatIWant)
+    {
+        Map<String,Integer> param = new HashMap<>();
+        param.put("id",idThatIWant);
+
+        restTemplate.delete(GET_PERSON_BY_ID,param);
+        return "DONE";
+
+    }
     public static String callGeTPersonByIdAPI(int idThatIWant) {
         Map<String, Integer> param = new HashMap<>();
         param.put("id", idThatIWant);

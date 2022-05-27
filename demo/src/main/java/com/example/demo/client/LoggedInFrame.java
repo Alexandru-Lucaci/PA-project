@@ -26,15 +26,35 @@ public class LoggedInFrame extends JFrame implements ActionListener {
     JButton registerButton = new JButton("Înregistrare");
     JButton loginButton = new JButton("Logare");
     JButton adaugaPrietenButton = new JButton("Adauga prieten");
+    JButton changePasswordButton = new JButton("Schimba parola");
+
+    JButton removeButton= new JButton("DELETE ACCOUNT");
+    JButton backButton = new JButton("BACK");
 
     LoggedInFrame(int id){
 
         whoAmI=id;
+        backButton.setFont(new Font(null,Font.BOLD,20));
+        backButton.setBounds(100,160,200,60);
+        backButton.setFocusable(false);
+        backButton.addActionListener(this);
+        backButton.setBorder(BorderFactory.createEtchedBorder());
 
-        exitButton.setBounds(100,160,200,40);
-        exitButton.setFocusable(false);
-        exitButton.addActionListener(this);
-        exitButton.setBorder(BorderFactory.createEtchedBorder());
+        removeButton.setFont(new Font(null,Font.BOLD,20));
+        removeButton.setFont(new Font(null,Font.BOLD,20));
+        removeButton.setBounds(100,160,200,60);
+        removeButton.setFocusable(false);
+        removeButton.addActionListener(this);
+        removeButton.setBorder(BorderFactory.createEtchedBorder());
+        removeButton.setFont(new Font(null,Font.BOLD,20));
+
+        changePasswordButton.setFont(new Font(null,Font.BOLD,20));
+        changePasswordButton.setBounds(100,160,200,60);
+        changePasswordButton.setFocusable(false);
+        changePasswordButton.addActionListener(this);
+        changePasswordButton.setBorder(BorderFactory.createEtchedBorder());
+        changePasswordButton.setFont(new Font(null,Font.BOLD,20));
+
         adaugaPrietenButton.setFont(new Font(null,Font.BOLD,20));
         adaugaPrietenButton.setBounds(100,160,200,60);
         adaugaPrietenButton.setFocusable(false);
@@ -105,12 +125,13 @@ public class LoggedInFrame extends JFrame implements ActionListener {
 
 
 
-        buttonPanel.setLayout(new GridLayout(3,1,10,10));
+        buttonPanel.setLayout(new GridLayout(1,3,10,10));
 //        buttonPanel.add(myButton);
 
-        buttonPanel.add(registerButton);
-        buttonPanel.add(loginButton);
-        buttonPanel.add(exitButton);
+        buttonPanel.add(changePasswordButton);
+        buttonPanel.add(removeButton);
+        buttonPanel.add(backButton);
+        buttonPanel.setPreferredSize(new Dimension(200,50));
 
 
         ImageIcon icon= new ImageIcon("src/main/java/Icon.png");
@@ -156,7 +177,7 @@ public class LoggedInFrame extends JFrame implements ActionListener {
         frame.setLayout(new BorderLayout());
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(jcp, BorderLayout.CENTER);
-        frame.add(updated,BorderLayout.SOUTH);
+        frame.add(buttonPanel,BorderLayout.SOUTH);
 
 
         frame.setVisible(true);
@@ -219,20 +240,20 @@ public class LoggedInFrame extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource() == loginButton)
+        if(e.getSource()==backButton)
         {
-            frame.dispose();
-//           LoginFrame myWindow = new LoginFrame();
-            LoginFrame frame = new LoginFrame();
-            frame.setTitle("Login Form");
-            frame.setVisible(true);
-            frame.setBounds(10, 10, 370, 600);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
+            backfunction(frame);
+
         }
-        if(e.getSource()==exitButton)
-        {
-            exit(0);
+        if(e.getSource()==removeButton){
+            Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
+            int answer = JOptionPane.showConfirmDialog(null,"Esti sigur ca vrei sa stergi contul "+ p.getName()+"?","IMPORTANT",JOptionPane.YES_NO_CANCEL_OPTION);
+
+            if(answer==0) {
+                System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
+                backfunction(frame);
+            }
+
         }
         if(e.getSource()==adaugaPrietenButton){
             String text = info.getText().toUpperCase();
@@ -261,6 +282,16 @@ public class LoggedInFrame extends JFrame implements ActionListener {
           }
 
         }
+    }
+
+    static void backfunction(JFrame frame2) {
+        frame2.dispose();
+        LoginFrame frame = new LoginFrame();
+        frame.setTitle("Login Form");
+        frame.setVisible(true);
+        frame.setBounds(10, 10, 370, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
     }
 
 
