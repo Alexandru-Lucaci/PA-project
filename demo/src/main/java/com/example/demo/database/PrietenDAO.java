@@ -18,7 +18,7 @@ public class PrietenDAO {
 
             Connection con = dataSource.getConnection();
             Statement stmt = con.createStatement();
-            String sql = "SELECT DISTINCT * FROM PRIETEN where id_First =" + id + " ORDER BY ID_FIrST";
+            String sql = "SELECT DISTINCT ID_FIRST, ID_SECOND FROM PRIETEN where id_First =" + id + " OR ID_SECOND ="+id+ " ORDER BY ID_FIrST";
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {

@@ -87,16 +87,23 @@ public static void startApp(){
             // get the id from the bd using username
             String cautat = RestClient.callGetPersonByName(userText);
 
-
             ///conversion String to Class that i need
+
+            if(cautat==null){
+                JOptionPane.showMessageDialog(this, "Invalid Username or Password");
+            }
+            else{
             Gson gson= new Gson();
             Person person = gson.fromJson(cautat,Person.class);
+            int id= person.getId();
 
             if (userText.equalsIgnoreCase(person.getName().toUpperCase()) && pwdText.equalsIgnoreCase(person.getPassword())) {
                 JOptionPane.showMessageDialog(this, "Login Successful");
+                this.dispose();
+                LoggedInFrame frame= new LoggedInFrame(id);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid Username or Password");
-            }
+            }}
 
         }
         //Coding Part of RESET button
