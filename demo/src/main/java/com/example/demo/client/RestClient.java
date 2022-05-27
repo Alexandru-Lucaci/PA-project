@@ -5,11 +5,13 @@ import com.example.demo.controllers.FriendshipController;
 import com.example.demo.controllers.Person;
 import com.example.demo.controllers.PersonController;
 
+import com.example.demo.database.PrietenDAO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,11 @@ public class RestClient {
         param.put("id",idThatIWant);
 
         restTemplate.delete(GET_PERSON_BY_ID,param);
-        return "DONE";
+        try {
+            return new PrietenDAO().deleteAllFriendshipWithId(idThatIWant);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     public static String callGeTPersonByIdAPI(int idThatIWant) {

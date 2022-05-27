@@ -51,6 +51,26 @@ public class PrietenDAO {
 
     }
 
+    public String deleteAllFriendshipWithId(int id) throws SQLException
+    {
+        Connection con = dataSource.getConnection();
+        int idMax1 = 0;
+        try (PreparedStatement pstm = con.prepareStatement("delete from prieten where ID_FIRST = (?) or ID_SECOND=(?)")) {
+            Statement stmt = con.createStatement();
+
+            pstm.setInt(1, id);
+            pstm.setInt(2, id);
+            pstm.executeUpdate();
+            con.commit();
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            con.close();
+        }
+        return "Done";
+    }
 
 
     public int maxID() {
