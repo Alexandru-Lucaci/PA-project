@@ -165,8 +165,8 @@ public class LoggedInFrame extends JFrame implements ActionListener {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String SelectedFruit = (String) ListFruits.getSelectedValue();
-                label.setText(SelectedFruit);
+                //String SelectedFruit = (String) ListFruits.getSelectedValue();
+                //label.setText(SelectedFruit);
             }
         });
 

@@ -86,15 +86,17 @@ public class PersonController {
         return new ResponseEntity<>("Persone with id= "+id+" removed",HttpStatus.OK);
     }
     @PostMapping
-    public int createProduct(@RequestParam String name, @RequestParam String password) {
-        int id=-1;
+    public String createProduct(@RequestParam String name, @RequestParam String password) {
+        //int id=-1;
+        String response="";
         try {
-            new ContDAO().create(name,password);
-            id= new ContDAO().findByName(name);
+            response =new ContDAO().create(name,password);
+            System.out.println(response);
+            //id= new ContDAO().findByName(name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+        return response;
 
     }
     @PostMapping("/add")
