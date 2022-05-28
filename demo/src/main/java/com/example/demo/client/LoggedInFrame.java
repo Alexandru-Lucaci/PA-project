@@ -160,13 +160,28 @@ public class LoggedInFrame extends JFrame implements ActionListener {
 
 
         prieteni.addListSelectionListener(new ListSelectionListener() {
-
+        Label label= new Label();
 
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
+
                 //String SelectedFruit = (String) ListFruits.getSelectedValue();
                 //label.setText(SelectedFruit);
+
+                String SelectedFruit = (String) prieteni.getSelectedValue();
+                label.setText(SelectedFruit);
+                String chatWith = label.getText();
+                String personJson = RestClient.callGetPersonByName(chatWith);
+
+                Person personChatWith = getPersonByJson(personJson);
+
+
+                chatWith=null;
+                personJson=null;
+                frame.dispose();
+                ChatFrame chatFrame= new ChatFrame(whoAmI,personChatWith.getId());
+
             }
         });
 
