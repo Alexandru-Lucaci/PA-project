@@ -174,10 +174,12 @@ public class ContDAO {
         String response="";
 
         Integer id= new ContDAO().findByName(name);
+        System.out.println(id);
 
-        if(id==null){
+        if(id==-1){
             try(PreparedStatement pstm = con.prepareStatement("insert into cont (ID, NAMe,PASSWORD, CREATED_AT ) values ((?), (?), (?), sysdate)")){
                 Statement stmt = con.createStatement();
+                System.out.println("heeere");
                 String sql="select max(id) from CONT";
                 ResultSet rs= stmt.executeQuery(sql);
                 rs.next();
@@ -196,6 +198,7 @@ public class ContDAO {
 
             }catch (Exception e){
                 System.out.println(e);
+                System.out.println("heere");
             }
             finally {
                 con.close();
