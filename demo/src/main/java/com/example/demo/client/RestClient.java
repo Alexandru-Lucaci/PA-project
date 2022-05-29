@@ -79,10 +79,20 @@ public class RestClient {
     public static String callGetPersonByName(String name) {
         Map<String, String> param = new HashMap<>();
         param.put("id", name);
-        String person = restTemplate.getForObject(GET_PERSON_BY_NAME, String.class, param);
-        System.out.println(person);
+        String person =new String();
+        try {
+             person= restTemplate.getForObject(GET_PERSON_BY_NAME, String.class, param);
+            System.out.println(person);
+             return person;
 
-        return person;
+
+        }
+        catch (Exception e)
+        {
+            return  null;
+        }
+
+
 
 
     }
