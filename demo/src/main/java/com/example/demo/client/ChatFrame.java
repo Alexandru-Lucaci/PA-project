@@ -32,7 +32,7 @@ public class ChatFrame extends JFrame implements ActionListener {
     JButton sendMessage = new JButton("Trimite");
     JButton changePasswordButton = new JButton("Schimba parola");
 
-    JButton removeButton= new JButton("DELETE ACCOUNT");
+    JButton removeButton= new JButton("LOGOUT");
     JButton backButton = new JButton("BACK");
 
     ChatFrame(int id, int idSecond){
@@ -255,7 +255,7 @@ public class ChatFrame extends JFrame implements ActionListener {
         }
         if(e.getSource()==removeButton){
             Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
-            int answer = JOptionPane.showConfirmDialog(null,"Esti sigur ca vrei sa stergi contul "+ p.getName()+"?","IMPORTANT",JOptionPane.YES_NO_CANCEL_OPTION);
+            int answer = JOptionPane.showConfirmDialog(null,"Esti sigur ca vrei sa te delogezi de pe contul "+ p.getName()+"?","IMPORTANT",JOptionPane.YES_NO_CANCEL_OPTION);
 
             if(answer==0) {
                 System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
