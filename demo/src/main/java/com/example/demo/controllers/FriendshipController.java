@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +85,23 @@ public class FriendshipController {
         }
         return frequency;
     }
+
+
+    @DeleteMapping("/{id1}/{id2}")
+    public ResponseEntity<String> deleteFriendshipBetween2(@PathVariable int id1, @PathVariable int id2)
+    {
+
+        try{
+            new PrietenDAO().deleteFriendshipWith(id1,id2);
+            return new ResponseEntity<>("Am reusit sa inchei relatia", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return  new ResponseEntity<>("Ceva nu a fost ok", HttpStatus.GONE);
+
+    }
+
 
 
     @GetMapping("/{k}")

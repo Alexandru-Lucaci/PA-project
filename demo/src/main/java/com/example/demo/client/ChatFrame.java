@@ -30,7 +30,7 @@ public class ChatFrame extends JFrame implements ActionListener {
     JButton registerButton = new JButton("Înregistrare");
     JButton loginButton = new JButton("Logare");
     JButton sendMessage = new JButton("Trimite");
-    JButton changePasswordButton = new JButton("Schimba parola");
+    JButton changePasswordButton = new JButton("Sterge prietenia");
 
     JButton removeButton= new JButton("LOGOUT");
     JButton backButton = new JButton("BACK");
@@ -267,13 +267,18 @@ public class ChatFrame extends JFrame implements ActionListener {
         if(e.getSource()==changePasswordButton)
         {
             Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
-            int answer = JOptionPane.showConfirmDialog(null, "Esti sigur ca vrei sa schimbi parola contului "+p.getName()+"?","IMPORTANT", JOptionPane.YES_NO_OPTION);
+            Person p2= getPersonByJson(RestClient.callGeTPersonByIdAPI(talkingTo));
+            int answer = JOptionPane.showConfirmDialog(null, "Esti sigur ca vrei sa stergi prietenia dintre "+p.getName()+" si " + p2.getName()+
+                    " ?","IMPORTANT", JOptionPane.YES_NO_OPTION);
             if(answer==0)
             {
-                String newPassword = JOptionPane.showInputDialog("Introdu parola noua: ");
-                Person person= RestClient.changePassword(whoAmI,newPassword);
-                System.out.println(person);
-                backfunction(frame);
+
+                RestClient.callDeleteFriendship(whoAmI, talkingTo);
+                System.out.println("done");
+                frame.dispose();
+                LoggedInFrame frame1 = new LoggedInFrame(whoAmI);
+//                System.out.println(person);
+//                backfunction(frame);
             }
 
 

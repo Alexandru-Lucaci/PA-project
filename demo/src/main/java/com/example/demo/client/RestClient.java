@@ -27,7 +27,16 @@ public class RestClient {
     private static final String CREATE_FRIENDSHIP = "http://localhost:8088//friendship/add";
     private static final String SEE_ALL_FRIENDSHIP ="http://localhost:8088/friendship";
     private static final String CHANGE_PASSWORD ="http://localhost:8088/persons/changepassword/{id}";
+    private static final String DELETE_FRIENDSHIP = "http://localhost:8088/friendship/{id1}/{id2}";
     static RestTemplate restTemplate = new RestTemplate();
+
+    public static void callDeleteFriendship(int id1, int id2)
+    {
+        Map<String, Integer> param = new HashMap<>();
+        param.put("id1", id1);
+        param.put("id2",id2);
+         restTemplate.delete(DELETE_FRIENDSHIP, param);
+    }
 
     public static String callGetAllFriendship(){
         ResponseEntity<String> friendships = restTemplate.exchange(SEE_ALL_FRIENDSHIP, HttpMethod.GET,null, String.class);
