@@ -11,9 +11,21 @@ import static com.example.demo.client.ChatFrame.getAllMessageFromAll;
 import static com.example.demo.client.RestClient.getPersonByJson;
 
 public class DaemonThread extends Thread{
-    public DaemonThread(String name){
+    private Frame frame;
+    private boolean exit= false;
+    private JScrollPane jcp;
+    private JList prieteni;
+    private int id1;
+    private int id2;
+    public DaemonThread(String name,Frame frame, JScrollPane jcp,JList prieteni, int id1, int id2){
         super(name);
+        this.frame=frame;
+        this.jcp= jcp;
+        this.prieteni=prieteni;
+        this.id1=id1;
+        this.id2=id2;
     }
+
     private String[] listaFinala(int whoAmI, int talkingToo){
         String meJson = RestClient.callGeTPersonByIdAPI(whoAmI);
         String talkingToJson = RestClient.callGeTPersonByIdAPI(talkingToo);
@@ -37,7 +49,8 @@ public class DaemonThread extends Thread{
         }
         return  listsFinals;
     }
-    public void updateJCP(Frame frame, JScrollPane jcp,JList prieteni, int id1, int id2){
+
+    public void updateJCP(){
         frame.remove(jcp);
         prieteni = new JList<>(listaFinala(id1,id2));
         prieteni.setFont(new Font("MV Boli",Font.BOLD,13));
@@ -51,20 +64,19 @@ public class DaemonThread extends Thread{
         JScrollBar vertical = jcp.getVerticalScrollBar();
         vertical.setValue( vertical.getMaximum() );
     }
-    public void run(Frame frame, JScrollPane jcp,JList prieteni, int id1, int id2 ){
-        if(Thread.currentThread().isDaemon())
-            do{
-                try{
-                    Thread.sleep(7000);
-                    updateJCP(frame, jcp,prieteni, id1,id2);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
+    public void run( ){
+        if(Thread.currentThread().isDaemon()) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+//            frame.dispose();
+            updateJCP();
+            if(exit==false)
+                run();
 
-
-            }while(true);
-
-
+        }
         else
         {
             System.out.println(getName() + " is User thread");

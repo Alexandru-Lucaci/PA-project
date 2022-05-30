@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatFrame extends JFrame implements ActionListener {
     private JScrollPane jcp;
+    DaemonThread thread;
     private final int whoAmI;
     private final int talkingTo;
     JList prieteni;
@@ -246,6 +247,10 @@ public class ChatFrame extends JFrame implements ActionListener {
 //        updateJCPInf();
 
 
+         thread = new DaemonThread("hello",frame,jcp,prieteni,me.getId(),talkingTo.getId());
+        thread.setDaemon(true);
+        thread.start();
+
 
     }
     protected Person getPersonByJson(String json)
@@ -272,8 +277,12 @@ public class ChatFrame extends JFrame implements ActionListener {
 
         if(e.getSource()==backButton)
         {
+            thread.interrupt();
+//            thread.setDaemon(false);
             frame.dispose();
+
             LoggedInFrame fr= new LoggedInFrame(whoAmI);
+
 
         }
         if(e.getSource()==removeButton){
@@ -282,8 +291,11 @@ public class ChatFrame extends JFrame implements ActionListener {
 
             if(answer==0) {
 //                System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
+                thread.interrupt();
                 backfunction(frame);
+
             }
+
 
         }
         if(e.getSource() == sendMessage){
@@ -293,7 +305,8 @@ public class ChatFrame extends JFrame implements ActionListener {
             RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
             info.setText("");
 
-            updateJCP();
+
+//            updateJCP();
 
         }
         if(e.getSource()==changePasswordButton)
@@ -306,6 +319,7 @@ public class ChatFrame extends JFrame implements ActionListener {
             {
 
                 RestClient.callDeleteFriendship(whoAmI, talkingTo);
+                thread.interrupt();
                 System.out.println("done");
                 frame.dispose();
                 LoggedInFrame frame1 = new LoggedInFrame(whoAmI);
@@ -344,17 +358,6 @@ public class ChatFrame extends JFrame implements ActionListener {
     }
 
 
-    private void updateJCPInf()
-    {
-        try {
-
-            updateJCP();
-            Thread.sleep(9000);
-            updateJCPInf();
 
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
