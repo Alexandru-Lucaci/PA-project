@@ -297,7 +297,8 @@ public class ChatFrame extends JFrame implements ActionListener {
 //            jcp.updateUI();
 
             frame.add(jcp, BorderLayout.CENTER);
-           frame.show();
+            frame.validate();
+           frame.repaint();
 
 
         }
