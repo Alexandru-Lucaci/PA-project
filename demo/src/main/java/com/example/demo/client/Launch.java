@@ -16,9 +16,9 @@ public class Launch implements ActionListener {
 
     JFrame frame=new JFrame();
 
-    JButton exitButton = new JButton("Ieșire");
-    JButton registerButton = new JButton("Înregistrare");
-    JButton loginButton = new JButton("Logare");
+    JButton exitButton = new JButton("IEȘIRE");
+    JButton registerButton = new JButton("ÎNREGISTRARE");
+    JButton loginButton = new JButton("LOGARE");
 
     Launch(){
 

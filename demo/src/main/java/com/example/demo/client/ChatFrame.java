@@ -46,7 +46,7 @@ public class ChatFrame extends JFrame implements ActionListener {
     JButton removeButton= new JButton("LOGOUT");
     JButton backButton = new JButton("BACK");
 
-    private List<Message> getAllMessageFromAll(){
+     static List<Message> getAllMessageFromAll(){
         String string = RestClient.callGetAllMessages();
         Gson gson = new Gson();
         Message [] messages = gson.fromJson(string, Message[].class);
@@ -54,7 +54,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 
     }
 
-    public String[] listaFinala(){
+    private String[] listaFinala(){
         String meJson = RestClient.callGeTPersonByIdAPI(whoAmI);
         String talkingToJson = RestClient.callGeTPersonByIdAPI(talkingTo);
         Person me = getPersonByJson(meJson);
