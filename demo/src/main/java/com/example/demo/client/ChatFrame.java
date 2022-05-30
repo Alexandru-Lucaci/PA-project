@@ -263,7 +263,15 @@ public class ChatFrame extends JFrame implements ActionListener {
             }
 
         }
+        if(e.getSource() == sendMessage){
+            Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
+            Person p2= getPersonByJson(RestClient.callGeTPersonByIdAPI(talkingTo));
 
+            RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
+            info.setText("");
+
+
+        }
         if(e.getSource()==changePasswordButton)
         {
             Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));

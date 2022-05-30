@@ -1,11 +1,9 @@
 package com.example.demo.client;
 
-import com.example.demo.controllers.Friendship;
-import com.example.demo.controllers.FriendshipController;
-import com.example.demo.controllers.Person;
-import com.example.demo.controllers.PersonController;
+import com.example.demo.controllers.*;
 
 import com.example.demo.database.ContDAO;
+import com.example.demo.database.MessageFriendDAO;
 import com.example.demo.database.PrietenDAO;
 import com.google.gson.Gson;
 import org.springframework.http.HttpEntity;
@@ -15,12 +13,15 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.demo.DemoApplication.initDatabaseConnectionPool;
 
 
 public class RestClient {
+
+    private static final String INIT ="http://localhost:8088/";
     private static final String Create_PERSONS = "http://localhost:8088/persons/add";
     private static final String GET_PERSON_BY_ID = "http://localhost:8088/persons/{id}";
     private static final String GET_PERSON_BY_NAME = "http://localhost:8088/persons/name/{id}";
@@ -28,8 +29,32 @@ public class RestClient {
     private static final String SEE_ALL_FRIENDSHIP ="http://localhost:8088/friendship";
     private static final String CHANGE_PASSWORD ="http://localhost:8088/persons/changepassword/{id}";
     private static final String DELETE_FRIENDSHIP = "http://localhost:8088/friendship/{id1}/{id2}";
+    private static final String CREATE_MESSAGE=INIT+"messages";
     static RestTemplate restTemplate = new RestTemplate();
 
+    private static Message getMessageByStats(List<Message> messageList, int id1, int id2, String text){
+        for(Message mesaj : messageList)
+            if(mesaj.getIdSender() == id1 && mesaj.getIdReciever() == id2 && mesaj.getMessage().equals(text.toUpperCase())){
+//                    System.out.println(mesaj);
+                // get the new id message that i added
+                return mesaj;
+            }
+        return null;
+    }
+    public static Message callCreateMessage(int id1, int id2, String message){
+        try{
+             int id = new MessageController().createProduct(id1, id2,message);
+             if(id!=-1)
+                 return getMessageByStats(new MessageFriendDAO().findAllMessages(),id1,id2, message);
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void callDeleteFriendship(int id1, int id2)
     {
         Map<String, Integer> param = new HashMap<>();
