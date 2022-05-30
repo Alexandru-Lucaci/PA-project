@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 //import static java.lang.System.exit;
 
@@ -243,6 +244,8 @@ public class ChatFrame extends JFrame implements ActionListener {
         frame.setResizable(false);
 //        frame.pack();;
 
+//        updateJCPInf();
+
 
 
     }
@@ -290,16 +293,8 @@ public class ChatFrame extends JFrame implements ActionListener {
 
             RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
             info.setText("");
-            frame.remove(jcp);
-            prieteni = new JList<>(listaFinala());
 
-            jcp = new JScrollPane(prieteni);
-//            jcp.updateUI();
-
-            frame.add(jcp, BorderLayout.CENTER);
-            frame.validate();
-           frame.repaint();
-
+            updateJCP();
 
         }
         if(e.getSource()==changePasswordButton)
@@ -324,7 +319,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 
     }
 
-    static void backfunction(JFrame frame2) {
+    public static void backfunction(JFrame frame2) {
         frame2.dispose();
         LoginFrame frame = new LoginFrame();
         frame.setTitle("Login Form");
@@ -334,5 +329,31 @@ public class ChatFrame extends JFrame implements ActionListener {
         frame.setResizable(false);
     }
 
+    private void updateJCP(){
+        frame.remove(jcp);
+        prieteni = new JList<>(listaFinala());
+        prieteni.setFont(new Font("MV Boli",Font.BOLD,13));
+        prieteni.setLayout(new FlowLayout());
+        jcp = new JScrollPane(prieteni);
+//            jcp.updateUI();
 
+        frame.add(jcp, BorderLayout.CENTER);
+        frame.validate();
+        frame.repaint();
+        JScrollBar vertical = jcp.getVerticalScrollBar();
+        vertical.setValue( vertical.getMaximum() );
+    }
+    private void updateJCPInf()
+    {
+        try {
+
+            updateJCP();
+            Thread.sleep(9000);
+            updateJCPInf();
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

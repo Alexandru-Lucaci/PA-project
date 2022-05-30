@@ -35,10 +35,15 @@ public class MessageController {
             List<Message> messageList = new MessageFriendDAO().findAllMessages();
 //            System.out.println(messageList);
             for(Message mesaj : messageList)
-                if(mesaj.getIdSender() == idFirst && mesaj.getIdReciever() == idSecond && mesaj.getMessage().equals(message.toUpperCase())){
+                try {
+                    if (mesaj.getIdSender() == idFirst && mesaj.getIdReciever() == idSecond && mesaj.getMessage().equals(message.toUpperCase())) {
 //                    System.out.println(mesaj);
-                    // get the new id message that i added
-                    id=mesaj.getId();
+                        // get the new id message that i added
+                        id = mesaj.getId();
+                    }
+                }catch (NullPointerException e)
+                {
+                    System.out.println("");
                 }
         }
         catch (SQLException e){

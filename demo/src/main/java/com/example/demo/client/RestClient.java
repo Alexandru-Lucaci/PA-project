@@ -33,11 +33,16 @@ public class RestClient {
 
     private static Message getMessageByStats(List<Message> messageList, int id1, int id2, String text){
         for(Message mesaj : messageList)
-            if(mesaj.getIdSender() == id1 && mesaj.getIdReciever() == id2 && mesaj.getMessage().equals(text.toUpperCase())){
+            try {
+                if (mesaj.getIdSender() == id1 && mesaj.getIdReciever() == id2 && mesaj.getMessage().equals(text.toUpperCase())) {
 //                    System.out.println(mesaj);
-                // get the new id message that i added
-                return mesaj;
+                    // get the new id message that i added
+                    return mesaj;
+                }
             }
+        catch (NullPointerException e){
+                return null;
+        }
         return null;
     }
     public static Message callCreateMessage(int id1, int id2, String message){
