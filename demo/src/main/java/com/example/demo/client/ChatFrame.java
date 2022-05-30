@@ -246,6 +246,10 @@ public class ChatFrame extends JFrame implements ActionListener {
 //        updateJCPInf();
 
 
+        DaemonThread thread = new DaemonThread("hello",frame,jcp,prieteni,me.getId(),talkingTo.getId());
+        thread.setDaemon(true);
+        thread.start();
+
 
     }
     protected Person getPersonByJson(String json)
@@ -285,6 +289,7 @@ public class ChatFrame extends JFrame implements ActionListener {
                 backfunction(frame);
             }
 
+
         }
         if(e.getSource() == sendMessage){
             Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
@@ -293,7 +298,7 @@ public class ChatFrame extends JFrame implements ActionListener {
             RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
             info.setText("");
 
-            updateJCP();
+//            updateJCP();
 
         }
         if(e.getSource()==changePasswordButton)
@@ -344,17 +349,6 @@ public class ChatFrame extends JFrame implements ActionListener {
     }
 
 
-    private void updateJCPInf()
-    {
-        try {
-
-            updateJCP();
-            Thread.sleep(9000);
-            updateJCPInf();
 
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
