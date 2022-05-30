@@ -12,6 +12,7 @@ import static com.example.demo.client.RestClient.getPersonByJson;
 
 public class DaemonThread extends Thread{
     private Frame frame;
+    private boolean exit= false;
     private JScrollPane jcp;
     private JList prieteni;
     private int id1;
@@ -48,6 +49,7 @@ public class DaemonThread extends Thread{
         }
         return  listsFinals;
     }
+
     public void updateJCP(){
         frame.remove(jcp);
         prieteni = new JList<>(listaFinala(id1,id2));
@@ -71,7 +73,8 @@ public class DaemonThread extends Thread{
             }
 //            frame.dispose();
             updateJCP();
-            run();
+            if(exit==false)
+                run();
 
         }
         else

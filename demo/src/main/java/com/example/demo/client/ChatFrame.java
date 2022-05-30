@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatFrame extends JFrame implements ActionListener {
     private JScrollPane jcp;
+    DaemonThread thread;
     private final int whoAmI;
     private final int talkingTo;
     JList prieteni;
@@ -246,7 +247,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 //        updateJCPInf();
 
 
-        DaemonThread thread = new DaemonThread("hello",frame,jcp,prieteni,me.getId(),talkingTo.getId());
+         thread = new DaemonThread("hello",frame,jcp,prieteni,me.getId(),talkingTo.getId());
         thread.setDaemon(true);
         thread.start();
 
@@ -276,8 +277,12 @@ public class ChatFrame extends JFrame implements ActionListener {
 
         if(e.getSource()==backButton)
         {
+            thread.interrupt();
+//            thread.setDaemon(false);
             frame.dispose();
+
             LoggedInFrame fr= new LoggedInFrame(whoAmI);
+
 
         }
         if(e.getSource()==removeButton){
@@ -286,7 +291,9 @@ public class ChatFrame extends JFrame implements ActionListener {
 
             if(answer==0) {
 //                System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
+                thread.interrupt();
                 backfunction(frame);
+
             }
 
 
@@ -297,6 +304,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 
             RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
             info.setText("");
+
 
 //            updateJCP();
 
@@ -311,6 +319,7 @@ public class ChatFrame extends JFrame implements ActionListener {
             {
 
                 RestClient.callDeleteFriendship(whoAmI, talkingTo);
+                thread.interrupt();
                 System.out.println("done");
                 frame.dispose();
                 LoggedInFrame frame1 = new LoggedInFrame(whoAmI);
