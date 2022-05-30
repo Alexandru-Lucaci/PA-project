@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Message {
     private int id;
@@ -48,6 +49,30 @@ public class Message {
         this.createdAt = createdAt;
     }
     private Date createdAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message1 = (Message) o;
+        return id == message1.id && idSender == message1.idSender && idReciever == message1.idReciever && Objects.equals(message, message1.message) && Objects.equals(createdAt, message1.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, idSender, idReciever, message, createdAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", idSender=" + idSender +
+                ", idReciever=" + idReciever +
+                ", message='" + message + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 
     public Message(int id, int idSender, int idReciever, String message, Date createdAt) {
         this.id = id;
