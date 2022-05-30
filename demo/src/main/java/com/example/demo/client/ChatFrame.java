@@ -54,7 +54,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 
     }
 
-    private String[] listaFinala(){
+    public String[] listaFinala(){
         String meJson = RestClient.callGeTPersonByIdAPI(whoAmI);
         String talkingToJson = RestClient.callGeTPersonByIdAPI(talkingTo);
         Person me = getPersonByJson(meJson);
@@ -176,7 +176,6 @@ public class ChatFrame extends JFrame implements ActionListener {
 
 
         buttonPanel.setLayout(new GridLayout(3,1,10,10));
-//        buttonPanel.add(myButton);
 
         buttonPanel.add(changePasswordButton);
         buttonPanel.add(removeButton);
@@ -329,7 +328,7 @@ public class ChatFrame extends JFrame implements ActionListener {
         frame.setResizable(false);
     }
 
-    private void updateJCP(){
+    public void updateJCP(){
         frame.remove(jcp);
         prieteni = new JList<>(listaFinala());
         prieteni.setFont(new Font("MV Boli",Font.BOLD,13));
@@ -343,6 +342,8 @@ public class ChatFrame extends JFrame implements ActionListener {
         JScrollBar vertical = jcp.getVerticalScrollBar();
         vertical.setValue( vertical.getMaximum() );
     }
+
+
     private void updateJCPInf()
     {
         try {
