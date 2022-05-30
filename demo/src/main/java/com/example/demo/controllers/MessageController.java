@@ -14,7 +14,7 @@ import java.util.List;
 public class MessageController {
 
     @GetMapping
-    public List<Message> getFriendship(){
+    public List<Message> getMessages(){
         List<Message> list= new ArrayList<>();
         try {
             list = new MessageFriendDAO().findAllMessages();

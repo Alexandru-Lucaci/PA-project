@@ -1,6 +1,7 @@
 package com.example.demo.client;
 
 import com.example.demo.controllers.Friendship;
+import com.example.demo.controllers.Message;
 import com.example.demo.controllers.Person;
 import com.example.demo.database.PrietenDAO;
 import com.github.javafaker.Faker;
@@ -15,14 +16,23 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //import static java.lang.System.exit;
 
 public class ChatFrame extends JFrame implements ActionListener {
-    private final JScrollPane jcp;
+    private JScrollPane jcp;
     private final int whoAmI;
     private final int talkingTo;
+    JList prieteni;
+    public int getWhoAmI() {
+        return whoAmI;
+    }
+
+    public int getTalkingTo() {
+        return talkingTo;
+    }
 
     JFrame frame=new JFrame();
     JTextField info = new JTextField();
@@ -34,6 +44,38 @@ public class ChatFrame extends JFrame implements ActionListener {
 
     JButton removeButton= new JButton("LOGOUT");
     JButton backButton = new JButton("BACK");
+
+    private List<Message> getAllMessageFromAll(){
+        String string = RestClient.callGetAllMessages();
+        Gson gson = new Gson();
+        Message [] messages = gson.fromJson(string, Message[].class);
+        return new ArrayList<>(Arrays.asList(messages));
+
+    }
+
+    private String[] listaFinala(){
+        String meJson = RestClient.callGeTPersonByIdAPI(whoAmI);
+        String talkingToJson = RestClient.callGeTPersonByIdAPI(talkingTo);
+        Person me = getPersonByJson(meJson);
+        Person talkingTo = getPersonByJson(talkingToJson);
+        List<Message> friends= getAllMessageFromAll();
+        String[] listsFinals = new String[friends.size()];
+        int contor=-1;
+
+        for(Message el: friends) //System.out.println(el.getName());
+        {
+            if((el.getIdSender()== me.getId() && el.getIdReciever()== talkingTo.getId())|| (el.getIdSender()==talkingTo.getId() && el.getIdReciever()==me.getId()) )
+            {contor++;
+                if(el.getIdSender() == whoAmI)
+                    listsFinals[contor]= me.getName();
+                else
+                    listsFinals[contor] = talkingTo.getName();
+
+                listsFinals[contor] += " :"+ el.getMessage();
+            }
+        }
+        return  listsFinals;
+    }
 
     ChatFrame(int id, int idSecond){
 
@@ -91,7 +133,7 @@ public class ChatFrame extends JFrame implements ActionListener {
 
 
 
-//     Basic text
+//     Basic text -- right one
         JLabel info3= new JLabel("Talking to  "+ talkingTo.getName());
         info3.setLayout(new FlowLayout());
         info3.setVerticalAlignment(JLabel.CENTER);
@@ -102,11 +144,13 @@ public class ChatFrame extends JFrame implements ActionListener {
         info3.setForeground(new Color(0x123456));
 
         Person p = getPersonByJson(RestClient.callGeTPersonByIdAPI(whoAmI));
-//        Basic Text
+//        Basic Text -- left one
         JLabel info2 = new JLabel(p.getName());
         info.setLayout(new FlowLayout());
         info2.setVerticalAlignment(JLabel.CENTER);
-//        insert text
+
+
+//        insert text -- buttom one
         info.setHorizontalAlignment(JLabel.CENTER);
         info.setPreferredSize(new Dimension(700,45));
         info.setFont(new Font("MV Boli",Font.PLAIN,20));
@@ -130,16 +174,6 @@ public class ChatFrame extends JFrame implements ActionListener {
         lowerPanel.add(sendMessage);
 
 
-
-        JLabel updated = new JLabel("Ultima actualizare la data de 27.05.2022");
-        updated.setLayout(new FlowLayout());
-        updated.setVerticalAlignment(JLabel.CENTER);
-        updated.setHorizontalAlignment(JLabel.CENTER);
-        updated.setPreferredSize(new Dimension(200,100));
-        updated.setFont(new Font("MV Boli",Font.PLAIN,20));
-
-
-
         buttonPanel.setLayout(new GridLayout(3,1,10,10));
 //        buttonPanel.add(myButton);
 
@@ -149,35 +183,20 @@ public class ChatFrame extends JFrame implements ActionListener {
         buttonPanel.setPreferredSize(new Dimension(200,50));
 
 
-        ImageIcon icon= new ImageIcon("src/main/java/Icon.png");
-
         Container controlHost = getContentPane();
         controlHost.setLayout((new FlowLayout()));
 
-
-//        List<String> control = new ArrayList<>();
 
 
         JPanel listWithFriends =new JPanel();
         listWithFriends.setLayout(new GridLayout(1,1,10,10));
 
         List<Integer> friendsWithMe = getFriendsWithID(whoAmI);
-        List<Person> friends = new ArrayList<>();
-        for(Integer el:friendsWithMe)
-        {
-            friends.add(getPersonByJson(RestClient.callGeTPersonByIdAPI(el)));
 
-        }
-        String[] listaFinala = new String[friends.size()];
-        int contor=-1;
+//        System.out.println(RestClient.callGetAllMessages());
 
 
-        for(Person el: friends) //System.out.println(el.getName());
-        {
-            contor++;
-            listaFinala[contor] = el.getName();
-        }
-        JList prieteni = new JList<>(listaFinala);
+         prieteni = new JList<>(listaFinala());
         prieteni.setFont(new Font("MV Boli",Font.BOLD,13));
         prieteni.setLayout(new FlowLayout());
 
@@ -207,7 +226,9 @@ public class ChatFrame extends JFrame implements ActionListener {
 
         prieteni.setVisibleRowCount(4);
         jcp = new JScrollPane(prieteni);
-        frame.setIconImage(icon.getImage());
+
+
+//        frame.setIconImage(icon.getImage());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800,600);
@@ -258,7 +279,7 @@ public class ChatFrame extends JFrame implements ActionListener {
             int answer = JOptionPane.showConfirmDialog(null,"Esti sigur ca vrei sa te delogezi de pe contul "+ p.getName()+"?","IMPORTANT",JOptionPane.YES_NO_CANCEL_OPTION);
 
             if(answer==0) {
-                System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
+//                System.out.println(RestClient.callDeletepersonByIdAPi(whoAmI));
                 backfunction(frame);
             }
 
@@ -269,6 +290,14 @@ public class ChatFrame extends JFrame implements ActionListener {
 
             RestClient.callCreateMessage(whoAmI, talkingTo,info.getText());
             info.setText("");
+            frame.remove(jcp);
+            prieteni = new JList<>(listaFinala());
+
+            jcp = new JScrollPane(prieteni);
+//            jcp.updateUI();
+
+            frame.add(jcp, BorderLayout.CENTER);
+           frame.show();
 
 
         }

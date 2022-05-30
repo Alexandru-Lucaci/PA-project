@@ -6,7 +6,6 @@ import com.example.demo.database.ContDAO;
 import com.example.demo.database.MessageFriendDAO;
 import com.example.demo.database.PrietenDAO;
 import com.google.gson.Gson;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -54,6 +53,11 @@ public class RestClient {
             e.printStackTrace();
         }
         return null;
+    }
+    public static String callGetAllMessages()
+    {
+        ResponseEntity<String> messages = restTemplate.exchange(CREATE_MESSAGE,HttpMethod.GET, null, String.class);
+        return messages.getBody();
     }
     public static void callDeleteFriendship(int id1, int id2)
     {
