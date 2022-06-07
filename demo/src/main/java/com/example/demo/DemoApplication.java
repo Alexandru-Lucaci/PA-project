@@ -17,7 +17,7 @@ public class DemoApplication {
 	public  static HikariDataSource dataSource;
 	public static void initDatabaseConnectionPool(){
 		dataSource = new HikariDataSource();
-		dataSource.setJdbcUrl("jdbc:oracle:thin:@fintest.ch2mbqxsgte3.eu-central-1.rds.amazonaws.com:1802/fintest");
+		dataSource.setJdbcUrl("jdbc:oracle:thin:@//localhost:1521/XE");
 		dataSource.setUsername(user);
 		dataSource.setPassword(password);
 		dataSource.setAutoCommit(false);
